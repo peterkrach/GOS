@@ -1,0 +1,357 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage[english]{babel}
+\usepackage{anysize}
+\usepackage{amsthm}
+\usepackage{multicol}
+\newcommand{\noun}[1]{\textsc{#1}}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+
+
+\usepackage[all,cmtip]{xy}
+
+%Bibliography settings
+%%%Packages
+\usepackage[ style = alphabetic, abbreviate = true, dateabbrev = long, alldates = long,backend=bibtex,bibencoding=ascii]{biblatex}
+%%%Settings
+\renewcommand*{\newunitpunct}{\addcomma\space} %Substitutes dots (.) with commas (,)
+\bibliography{bibliography} %Path of the bibliography
+
+
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+
+\renewcommand{\tilde}{\widetilde}
+\renewcommand{\bar}{\overline}
+
+\newcommand{\Gal}{\mbox{Gal}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\Spec}[1]{\mbox{Spec} #1}
+\newcommand{\Pic}[1]{\mbox{Pic} #1}
+\newcommand{\Hom}{\mbox{Hom}}
+\newcommand{\Iso}{\mbox{Iso}}
+\newcommand{\SSch}{(\mbox{Sch}/S)}
+\newcommand{\Frac}{\mbox{Frac}}
+\newcommand{\Ker}{\mbox{Ker}}
+\newcommand{\rank}{\mbox{rank}}
+\renewcommand{\char}{\mbox{char}}
+\newcommand{\Crys}{\mbox{Crys}(X/W_n)}
+\newcommand{\et}{\acute{e}t}
+\newcommand{\cover}{\{ f_i: U_i \rightarrow U \}_{i \in I}}
+
+
+\marginsize{3cm}{3cm}{2cm}{2cm}
+
+
+%This has to be just before begin document.
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links
+  citecolor   = red %Colour of citations
+}
+
+
+
+%
+%\title{Introduction to crystalline cohomology}
+%\author{Pedro A. Castillejo}
+%\date{22.10.2015}
+
+
+
+\begin{document}
+
+%\maketitle
+
+\begin{abstract}
+
+Draft of my master thesis.
+
+\end{abstract}
+
+\section{Ramification groups}
+
+Along this section, $L/K$ will be a finite Galois extension of complete discretely valued fields with separable residue field extension, and $G := \Gal(L/K)$. $v$ will denote the valuation in $K$, and $v_L$ the extension to $L$. $p$ will be the characteristic $\char(k(v))$, and let
+$$
+\xymatrix{
+K \ar[r] & L \\
+A \ar[u] \ar[r] & B \ar[u] \\
+\mathfrak{m}_K \ar[u] \ar[r] & \mathfrak{m}_L \ar[u]
+}
+$$
+be the diagram where the arrows are inclusions, $A$ and $B$ the ring of integers of $K$ and $L$, and $\mathfrak{m}_K$ and $\mathfrak{m}L$ their maximal ideals.
+
+
+\subsection{Ramification filtration - lower numbering}
+
+In the above setting, we define the ramification groups with lower numbering:
+\begin{definition}
+For $i \geq -1$, we know that $G$ acts on $B/\mathfrak{m}^{i+1}_L$. The \textit{$i$-th ramification subgroup of $G$} is the following subgroup:
+$$ G_i := \{ \sigma \in G| \sigma \mbox{ acts trivially on } B/\mathfrak{m}^{i+1}_L \}.$$
+These ramification subgroups form a filtration of $G$ called the \textit{ramification filtration of $G$ in the lower numbering}.
+\end{definition}
+
+One sees inmediately that $G_{-1} = G$ and that $G_0 = I$ (the inertia group, i.e. the kernel of the surjective map $G \twoheadrightarrow \Gal(k(v_L)/k(v)$).
+
+\begin{remark}
+Note that $G_i$ is just
+$$ G_i := \{ \sigma \in G| \forall b \in B, \; v_L(\sigma(b) - b) \geq i+1 \}, $$
+and since we know \cite[III, Prop. 12]{Ser79} that there exists $x \in B$ such that $B = A[x]$, we can also write
+$$ G_i := \{ \sigma \in G| v_L(\sigma(x) - x) \geq i+1 \}, $$
+which gives us an easy way to compute these subgroups. For example, we see inmediately that $G_i$ is trivial for $i \gg 0$. 
+\end{remark}
+
+Let's compute an example:
+
+\begin{example}
+Let $k$ be an algebraically closed field of $\char(k) = p >0$, and let $K := k((x))$ be the Laurent series with coefficients in $k$. Consider the polynomial $u^p + xu^{p-1} - x \in K[u]$, which by Eisenstein criterion is seen to be irreducible and therefore defines the field extension $L := K[u]/(u^p + xu^{p-1} - x)$, which is called the \textit{Artin-Schreier extension}\footnote{Changing coordinates $t=1/u$, we see that $L$ is isomorphic to $K[t]/(t^p - t- 1/x)$.}. This extension $L/K$ is Galois with group $G= \mathbb{Z}/p \mathbb{Z}$, and $a \in G$ acts via $u \mapsto u/(1+au)$. We get this diagram:
+$$
+\xymatrix{
+K \ar[r] & K[u]/(u^p + xu^{p-1} - x) \\
+k[[x]] \ar[u] \ar[r] & k[[x]][u]/(u^p + xu^{p-1} - x) \ar[u] \\
+(x) \ar[u] \ar[r] & (u) \ar[u]
+}
+$$
+and since $u^p = x(1-u^{p-1})$, we see that the ramification index of this extension is $e(L/K)= p$ (in particular it is purely ramified, so $G_{-1} = G_0 = G$). Let's compute the other ramification groups. For this, we just need to know how does $a \in G$ act on $u$. Since, for $a \neq 0$,
+$$v_L(u - u/(1+au)) = v_L(u (1+au - 1)/(1 + au)) = 2,$$
+we have that $G_1 = G$ and that $G_2=0$.
+
+Similarly (c.f. \cite{Lau81}), one proves that $L = K[t]/(t^{p^n} - t - x^{-m})/K$, with $(m,p) =1$, has the following ramification filtration:
+$$ \mathbb{Z}/p^n \mathbb{Z} = G_0 = \ldots = G_m \varsupsetneq G_{m+1} = 0.$$
+This finishes the example.
+
+\end{example}
+
+Since $B = A[x]$, the generator $x$ will also be a generator in intermediate valuation rings, so we have the following compatibility when taking subgroups:
+
+\begin{proposition}
+If $H<G$ is a subgroup and $L^H$ its fixed field, then $L/L^H$ is Galois with group $H$, and for all $i$,
+$$H_i = G_i \cap H. $$
+
+\end{proposition}
+
+\begin{remark}
+\begin{enumerate}
+\item Applying the proposition to $H=I$, we see that we may assume $L/K$ to be totally ramified.
+\item Quotients will not respect in general this filtration. In order to fix this, we will define a different ramification filtration, which will have the same subgroups but in a different numbering (c.f. \cite[Cor. 3.43]{KinRue15}). In order to distinguish the filtrations, we denote the second one as $G^i$, and we call it \textit{ramification filtration with\ldots upper numbering}. But before we define this second filtration, let's study a little bit more the structure of our lower numbering filtration.
+\end{enumerate}
+\end{remark}
+
+Once we assume that $L/K$ is totally ramified, we know by \cite[III, Prop. 12]{Ser79} that $x$, the generator of $B = A[x]$, is an uniformizer for $L$. Hence, for $\sigma \in G_0$, we see that $v_L(\sigma(x))= v_L(x) = 1$ and therefore $\sigma(x)/x \in B^\times =: U^0_L$. Since $G_i = \{ \sigma \in G| \sigma(x) - x \in (x)^{i+1} \}$, we see that
+$$ G_i = \{ \sigma \in G| \sigma(x)/x \equiv 1 \pmod{\mathfrak{m}^i_L} \}. $$
+This motivates a filtration in the group of units of $L$:
+
+\begin{definition}
+For $i > 0$, we define $U^i_L := 1 + \mathfrak{m}^i_L \subset B^\times$ to be the group of \textit{$i$-th units}. For $i=0$, we will just define $U^0_L := U_L$.
+\end{definition}
+
+These subgroups will gives us information about the ramification subgroups because they are easier to handle and we can do the following\footnote{The two lines computation can be checked in \cite[Prop. 3.37]{KinRue15}.}:
+
+\begin{proposition}
+The assigment $\sigma \mapsto \sigma(x)$ induces an injective homomorphism of groups
+$$ G_i/G_{i+1} \hookrightarrow U^i_L/U^{i+1}_L,$$
+and this homomorphism is independent of the choice of $x$.
+\end{proposition}
+
+The right hand side of this homomorphism is very explicit. Indeed, let's look closer at both $i=0$ and $i>0$. Since we may assume that $L/K$ is totally ramified, the residue fields of $L$ and $K$ are the same. Let's denote them by $k$.
+
+\begin{itemize}
+\item $i=0$: $U^0_L/U^1_L \cong (k^\times, \cdot)$, where the map $U^0_L \rightarrow (k^\times, \cdot)$ is given by fixing a local parameter $x$ and mapping $u_0 + u_1 x + \ldots + u_n x^n \mapsto [u_0]$.
+\item $i > 0$: $U^n_L/U^{n+1}_L \cong (k, +)$. For this, we can show that $U^n_L / U^{n+1}_L \rightarrow \mathfrak{m}^n_L / \mathfrak{m}^{n+1}_L: [1+x] \mapsto [x]$ is an isomorphism, and that the latter is a 1-dimensional $k$-vector space (for this just need to choose a local parameter $x^n$).
+\end{itemize}
+
+Using this, one shows the following:
+
+\begin{corollary}
+\begin{itemize}
+\item $G_0/G_1$ is cyclic of order prime to $p = \char(k)$.
+\item If $p=0$, then $G_i=0$ for $i>0$.
+\item If $p>0$, then for $i\geq 1$ the groups $G_i$ are $p$-groups, and the quotients $G_i/G_{i+1}$ are abelian $p$-groups.
+\item $G_0$ is a semi-direct product of a cyclic group of order prime to $p$ and a $p$-group. In particular, $G_0$ is solvable and $G_1$ is its unique $p$-Sylow group.
+\end{itemize}
+\end{corollary}
+
+
+
+\subsection{Ramification filtration - upper numbering}
+
+Now we want to introduce the upper numbering filtration, that will respect the quotients. We said that we have to change the numbering, and in order to do it we first need to fix some notation. For $u \in \mathbb{R}_{\geq -1}$, we denote $G_u := G_{\lceil u \rceil}$, where $\lceil u \rceil$ is the smallest integer greater or equal to $u$.
+
+\begin{definition}
+We define the function $\varphi_{L/K}: [-1, \infty) \rightarrow [-1, \infty)$ as follows:
+$$ \varphi_{L/K}(u) = \int_0^u \frac{dt}{(G_0:G_t)},$$
+where $(G_0:G_t)$ is defined, for $t \in [-1, 0)$, as $(G_0:G_t) := (G_t:G_0)^{-1}$. In other words, $(G_0: G_{-1})= 1/f$ and $(G_0:G_t) = 1$ for $t \in (-1,0)$, where $f$ is the degree of the extension of the residue fields.
+\end{definition}
+
+Note that if $u \in \mathbb{N}$, then
+$$ \varphi_{L/K}(u)+1 = \frac{1}{|G_0|} \sum_{i=0}^u |G_i|.$$
+
+This definition arises naturally in the computation of the image of $G_i$ in the quotient $G/H$, where $H\lhd G$ is a normal subgroup (c.f. proof of \cite[Cor. 3.43]{KinRue15}). Indeed, we obtain the following compatibility when taking quotients:
+
+\begin{proposition}
+Let $H \lhd G$ be a normal subgroup. Then, for $u \in \mathbb{R}_{\geq -1}$, we have
+$$ G_uH/H = (G/H)_{\varphi_{L/L^H}(u)}.$$
+\end{proposition}
+
+Hence, if $\psi_{L/K}$ denotes the inverse to $\varphi_{L/K}$, we define the upper numbering filtration as follows:
+
+\begin{definition}
+For $v \in \mathbb{R}_{\geq -1}$, define $G^v := G_{\psi_{L/K}(v)}$.
+\end{definition}
+
+In order to be able to write the filtration, we will only keep truck of the \textit{jumps}, i.e. the $v \in \mathbb{R}_{\geq -1}$ such that $G^v \varsupsetneq G^{v+ \varepsilon}$ for all $\varepsilon > 0$. In other words, the jumps are just the $\varphi_{L/K}(u)$, where $u$ are the integers such that $G_u \varsupsetneq G_{u+1}$.
+
+\begin{example}
+\begin{itemize}
+\item Let's compute the upper numbering filtration of the Artin-Schreier extension. Since
+$$ \mathbb{Z}/p \mathbb{Z} = G_0 = \ldots = G_m \varsupsetneq G_{m+1} = 0,$$
+we have that 
+$$
+	\begin{array}{r}
+		\varphi_{L/K}(u) =  \\
+    \end{array}
+\left\lbrace 
+	\begin{array}{ll}
+        \dfrac{up}{p} = u & \mbox{if } 0 \leq u \leq m, \\
+		m + \dfrac{u-m}{p} & \mbox{if } u > m.
+    \end{array}
+\right.
+$$
+Hence, we get
+$$
+	\begin{array}{r}
+		\psi_{L/K}(v) =  \\
+    \end{array}
+\left\lbrace 
+	\begin{array}{ll}
+        v & \mbox{if } 0 \leq u \leq m, \\
+		p(v-m)+m & \mbox{if } u > m.
+    \end{array}
+\right.
+$$
+We see then that the only jump is on $v = m$, and therefore we write the upper numbering filtration as
+$$  \mathbb{Z}/p \mathbb{Z} = G^0 = \ldots = G^m \varsupsetneq G^{m+ \varepsilon} = 0. $$
+\item In the above example the only jump of the filtration is an integer, but this is not always the case. Indeed, Serre constructed in \cite[Sec. 4]{Ser60} a totally ramified Galois extension $L/\mathbb{Q}_2$ with Galois group $G$ isomorphic to the quaternions group $\{\pm 1, \pm i, \pm j, \pm k \}$ with the usual relations. The center of the group is $Z(G) = \{ \pm 1 \}$, and $L/\mathbb{Q}_2$ has the following lower numbering filtration: $G = G_0 = G_1$, $G_2 = G_3 = Z(G)$, and $G_4 = \{ 1 \}$. Hence, the jumps are $\varphi_{L/\mathbb{Q}_2}(1) = 1$ and $\varphi_{L/\mathbb{Q}_2}(3) = 3/2$.
+
+In the next subsection, we will see the theorem of Hasse-Arf, which asserts that when $G$ is abelian, the jumps are integers. This result turns out to be very important, as we will see later.
+
+\end{itemize}
+\end{example}
+
+The upper numbering filtration respects the quotients, as we were looking for (c.f. \cite[Prop. 3.53]{KinRue15}):
+
+\begin{proposition}
+If $H \lhd G$ is a normal subgroup, we have
+$$G^v/(H \cap G^v) = (G/H)^v.$$
+\end{proposition}
+
+
+
+\subsection{Theorem of Hasse-Arf}
+
+Recall that the \textit{jumps} or \textit{breaks} of the upper numbering filtration of $G$ are the $v \in \mathbb{R}_{\geq -1}$ such that $G^v \varsupsetneq G^{v + \varepsilon}$ for all $\varepsilon > 0$. Then the following is true:
+
+\begin{theorem}[Hasse-Arf]
+If $G$ is abelian, the jumps are integers.
+\end{theorem}
+
+There are at least two ways of proving this result.
+
+The first one uses local class field theory, and we need the extra assumption that the residue field of $K$ is finite. Under this assumption, we know that there exists the local reciprocity map $\rho: K^\times \rightarrow \Gal(K^{ab}/K)$ such that, for any finite abelian extension $L/K$, the composition
+$$ K^\times \rightarrow \Gal(K^{ab}/K) \twoheadrightarrow \Gal(L/K) $$
+maps $U^{\lceil v \rceil}_K$ onto $\Gal(L/K)^v$ for any $v \in \mathbb{R}_{\geq 0}$ (c.f. \cite[Ch. VI.4, Thm. 1]{CasFro67}), so the jumps will occur at integer $v$'s.
+
+The second proof (c.f. \cite{Ser79}) doesn't need the development of the local class field theory and doesn't need the extra assumption on the residue field, but on the other hand is a little bit longer and intrincate. The idea of it consists on reducing to the case of a cyclic extension (using the transitivity of the norm and of the functions $\varphi$) and the last jump (i.e. the last $v$ where $G^v$ is non-trivial). In this particular case, we consider $V:=$ \{kernel of the norm $N_{L/K}: L^\times \rightarrow K^\times$\}. By Hilbert's theorem 90 this is just $V = \{ gy/y| \; y \in L^\times \}$, where $g$ generates $G$, and we consider the subgroup $W := \{ gy/y| \; y \in U_L \}$. Then, fixing a local parameter $x \in L$, the assigment 
+$$
+\begin{array}{rll}
+ \theta: G & \rightarrow & V/W \\
+ \sigma & \mapsto & \sigma(x)/x
+\end{array}
+$$ 
+is an isomorphism of groups that respects the filtrations, i.e. $\theta|_{G_i}: G_i \hookrightarrow V_i/W_i$ for all $i \geq 0$. Using this, if we assume that the jump $v$ is not an integer, then there is an integer $w$ such that $w < v < w+1$, and then our problem is reduced to showing that if $G^{w+1} = 0$ and $V_{\psi_{L/K}(v)+1}/W_{\psi_{L/K}(v)+1} = 0$, then $V_{\psi_{L/K}(v)}/W_{\psi_{L/K}(v)} = 0$, because once he have this we conclude (using that the isomorphism $\theta$ respects filtrations) that $G_{\psi_{L/K}(v)}=0$, which contradicts the definition of $v$. One proves that fact studying the norm map, as it is perfectly done in \cite[Sections 3.8 and 3.9]{KinRue15}.
+
+
+
+\section{Representation theory}
+
+Let $E$ be a field and $G$ a finite group. Recall that a \textit{class function} $\varphi_ G \rightarrow E$ is a function defined on the conjugacy classes. Recall the following:
+- Example: $i_G$, relate it with ramification groups
+- Bilinear product
+- Characters
+- Characters form a basis when $E = \mathbb{C}$.
+- If coefficients of a class function are naturals, then it is a character.
+- Restricted and induced class function.
+- Frobenius reciprocity.
+- Brauer theorem.
+
+
+\subsection{Artin and Swan representations}
+
+Let $L/K$ be a finite Galois extension of complete discretely valued fields with separable residue extension of degree $f$. Then, we define the \textit{Artin character}, which is the class function given by
+$$
+	\begin{array}{r}
+		a_G(g) :=  \\
+    \end{array}
+\left\lbrace 
+	\begin{array}{ll}
+        -f i_G(g) & \mbox{if } g \neq 1, \\
+		f \sum_{g' \neq 1} i_G(g) & \mbox{if } g=1.
+    \end{array}
+\right.
+$$
+Of course, we call it a character because it is character:
+
+\begin{theorem}[Artin]
+The Artin character $a_G$ is a character (of a representation of $G$ over $\mathbb{C}$).
+\end{theorem}
+
+Idea of the proof: enough to show that for any character $\chi$, then $(a_G|\chi) =: f(\chi) \in \mathbb{N}$. For this, first one proves that it is a non-negative rational number, then use Brauer theorem and Frobenius reciprocity to reduce it to the 1-dimensional case, and then use Hasse-Arf theorem to show that the $f(\chi)$ are integers.
+
+- Definition of Swan character.
+
+After this, explain that Artin and Swan representations are realizable over $\mathbb{Q}_l$, and that the Swan representation is integral over $\mathbb{Z}_\ell$.
+
+\subsection{Swan conductor of an $\ell$-adic Galois representation}
+
+- Definition of $\ell$-adic representations.
+- Action of the wild ramification subgroup.
+
+
+\section{Cohomological interpretation}
+
+\subsection{\'Etale fundamental group}
+
+\subsection{$\ell$-adic cohomology}
+
+\subsection{Grothendieck-Ogg-Shafarevich}
+
+\subsection{Higher dimensional ramification theory via curves?}
+
+\subsection{Grothendieck-Ogg-Shafarevich in higher dimension after Kato-Saito?}
+
+
+
+
+\printbibliography
+
+
+
+\end{document}
