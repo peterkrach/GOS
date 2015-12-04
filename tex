@@ -14,7 +14,10 @@
 
 \usepackage[all,cmtip]{xy}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Bibliography settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%Packages
 \usepackage[ style = alphabetic, abbreviate = true, dateabbrev = long, alldates = long,backend=bibtex,bibencoding=ascii]{biblatex}
 %%%Settings
@@ -22,6 +25,9 @@
 \bibliography{bibliography} %Path of the bibliography
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Theorem styles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
@@ -32,33 +38,53 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 
-
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 \newtheorem{example}{Example}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Accents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \renewcommand{\tilde}{\widetilde}
 \renewcommand{\bar}{\overline}
 
-\newcommand{\Gal}{\mbox{Gal}}
-\renewcommand{\O}{\mathcal{O}}
-\newcommand{\Spec}[1]{\mbox{Spec} #1}
-\newcommand{\Pic}[1]{\mbox{Pic} #1}
-\newcommand{\Hom}{\mbox{Hom}}
-\newcommand{\Iso}{\mbox{Iso}}
-\newcommand{\SSch}{(\mbox{Sch}/S)}
-\newcommand{\Frac}{\mbox{Frac}}
-\newcommand{\Ker}{\mbox{Ker}}
-\newcommand{\rank}{\mbox{rank}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Personal commands to make life easier
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\renewcommand{\chi}{\raisebox{2pt}{$\chi$}}
+
 \renewcommand{\char}{\mbox{char}}
 \newcommand{\Crys}{\mbox{Crys}(X/W_n)}
-\newcommand{\et}{\acute{e}t}
 \newcommand{\cover}{\{ f_i: U_i \rightarrow U \}_{i \in I}}
+\newcommand{\et}{\acute{e}t}
+\newcommand{\Frac}{\mbox{Frac}}
+\newcommand{\Gal}{\mbox{Gal}}
+\newcommand{\GL}{\mbox{GL}}
+\newcommand{\goodchi}{\raisebox{2pt}{$\chi$}}
+\newcommand{\Hom}{\mbox{Hom}}
+\newcommand{\Iso}{\mbox{Iso}}
+\newcommand{\Ker}{\mbox{Ker}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\Pic}[1]{\mbox{Pic} #1}
+\newcommand{\rank}{\mbox{rank}}
+\newcommand{\Spec}[1]{\mbox{Spec} #1}
+\newcommand{\SSch}{(\mbox{Sch}/S)}
+\newcommand{\Tr}{\mbox{Tr}}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Margins
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \marginsize{3cm}{3cm}{2cm}{2cm}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%References
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %This has to be just before begin document.
 \usepackage[hidelinks]{hyperref}
 \hypersetup{
@@ -292,15 +318,69 @@ is an isomorphism of groups that respects the filtrations, i.e. $\theta|_{G_i}: 
 
 \section{Representation theory}
 
-Let $E$ be a field and $G$ a finite group. Recall that a \textit{class function} $\varphi_ G \rightarrow E$ is a function defined on the conjugacy classes. Recall the following:
-- Example: $i_G$, relate it with ramification groups
-- Bilinear product
+Let $E$ be a field and $G$ a finite group. Recall that a \textit{class function} $\varphi G \rightarrow E$ is a function defined on the conjugacy classes. 
+
+\begin{example} Let $G := \Gal(L/K)$, with $L/K$ a finite Galois extension of complete discrete valued fields as in previous section, and $x\in L$ a local parameter. Then we can defined the ramification subgroups using the following class function:
+$$ \begin{array}{rll}
+i_G: G & \rightarrow & \mathbb{Z}_{\geq 0} \cup \{ \infty \} \\
+\sigma & \mapsto & v_L(\sigma(x) - x)
+\end{array}
+$$
+Note that according to our definition this wouldn't be a class map because we don't go to a field, but this is not so important. They key point is that it is constant on conjugacy classes. 
+
+One nice property about $i_G$ is that it allows us to write the ramification groups as follows: $G_i = i_G^{-1}([i+1, \infty ])$. Using this we will construct the Artin character (this one will be a class function to a field $E$), which will be very important in this thesis. 
+
+\end{example}
+
+
+
+One important example of a class function of special interest for us is the \textit{character} of a representation. Recall that if $\rho: G \rightarrow \GL(V)$ is a representation of $G$ on a finite dimensional $E$-vector space $V$, the character of $\rho$, $\chi_{\rho}: G \rightarrow E$, is defined as
+$$\chi_{\rho}(g) := \chi_V(g) := \Tr(\rho(g)).$$
+Note that if $V$ is 1-dimensional, the character is the representation itself. The following facts can be easily shown:
+\begin{remark} Let $V_1, V_2$ be two representations of $G$.
+\begin{enumerate}
+\item $\goodchi_{V_1 \oplus V_2} = \chi_{V_1} + \chi_{V_2}$.
+\item $\chi_{V_1 \otimes V_2} = \chi_{V_1} \cdot \chi_{V_2}$.
+\item $\chi_{V_1^\vee}(g) = \chi_{V_1}(g^{-1})$. In particular, if $E = \mathbb{C}$, we have $\chi_{V_1^\vee}(g) = \overline{\chi_{V_1}}$.
+
+\end{enumerate}
+\end{remark}
+
+\begin{example}
+Given $G$, recall that the \textit{regular representation} is the representation associated to $E[G]$ seen as an $E{G}$-module. In other words, if a basis of $V$ is given by $\{e_g\}_{g \in G}$, then $G$ acts by moving these elements\footnote{For all $h \in G$, $h e_g = e_{hg}$.}. Hence, if $r_G$ is the character of the regular representation, $r_G(1) = |G|$ and $r_G(g) = 0$ for $g \neq 1$ (because in the diagonals of the matrices with respect to the above basis, we will have only zeroes).
+
+Recall also the \textit{augmentation representation}, which is just the kernel of the quotient from the regular representation to the trivial representation (of rank 1). Let $u_G$ denote its character. If $|G|$ is invertible in $E$, then the regular representation is the direct sum of the trivial representation and the regular representation, so we have $r_G = u_G + 1_G$. In particular, $u_G(1) = |G| - 1$ and $u_G(g) = -1$ for the $g \neq 1$.
+\end{example}
+
+The set of class functions from $G$ to a field $E$, $\mathbf{C}_{E,G}$, has a natural structure of an $E$-vector space, and if $|G|$ doesn't divide the characteristic of $E$, we can define the following bilinear product:
+$$ \left\langle \varphi, \psi \right\rangle_G := \frac{1}{|G|} \sum_{g \in G} \varphi(g) \psi(g^{-1}). $$
+This is a symmetric bilinear form on $\mathbf{C}_{G,E}$.
+
+If $E = \mathbb{C}$, we have the following nice theorem:
+
+\begin{theorem}
+Let $G$ be a finite group. Then, its irreducible characters $\chi_1, \ldots, \chi_r$ form a basis of $\mathbf{C}_{\mathbb{C},G}$. Moreover, this basis is orthonormal with respect to $\left\langle -,- \right\rangle_G$. 
+\end{theorem}
+
+\noindent Therefore, we have the following:
+
+\begin{corollary} Over $\mathbb{C}$, a class function $\varphi$ is the character of a representation of $G$ if and only if it is of the form
+$$ \varphi = a_1 \chi_1 + \ldots + a_r \chi_r,$$
+with the $a_i \in \mathbb{Z}_{\geq 0}$.
+\end{corollary}
+
+We will need two more things in the rest of the section: the Frobenius reciprocity and Brauer's theorem. First we need a couple of definitions:
+
+
+Recall the following:
+
 - Characters
 - Characters form a basis when $E = \mathbb{C}$.
 - If coefficients of a class function are naturals, then it is a character.
 - Restricted and induced class function.
 - Frobenius reciprocity.
 - Brauer theorem.
+
 
 
 \subsection{Artin and Swan representations}
