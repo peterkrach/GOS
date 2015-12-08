@@ -55,9 +55,9 @@
 %Personal commands to make life easier
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\renewcommand{\chi}{\raisebox{2pt}{$\chi$}}
 
 \renewcommand{\char}{\mbox{char}}
+%\renewcommand{\chi}{\raisebox{2pt}{\mathchar"11F}} %it seems to work but giving errors
 \newcommand{\Crys}{\mbox{Crys}(X/W_n)}
 \newcommand{\cover}{\{ f_i: U_i \rightarrow U \}_{i \in I}}
 \newcommand{\et}{\acute{e}t}
@@ -295,7 +295,7 @@ $$G^v/(H \cap G^v) = (G/H)^v.$$
 
 Recall that the \textit{jumps} or \textit{breaks} of the upper numbering filtration of $G$ are the $v \in \mathbb{R}_{\geq -1}$ such that $G^v \varsupsetneq G^{v + \varepsilon}$ for all $\varepsilon > 0$. Then the following is true:
 
-\begin{theorem}[Hasse-Arf]
+\begin{theorem}[Hasse-Arf]\label{Hasse-Arf}
 If $G$ is abelian, the jumps are integers.
 \end{theorem}
 
@@ -320,7 +320,7 @@ is an isomorphism of groups that respects the filtrations, i.e. $\theta|_{G_i}: 
 
 Let $E$ be a field and $G$ a finite group. Recall that a \textit{class function} $\varphi G \rightarrow E$ is a function defined on the conjugacy classes. 
 
-\begin{example} Let $G := \Gal(L/K)$, with $L/K$ a finite Galois extension of complete discrete valued fields as in previous section, and $x\in L$ a local parameter. Then we can defined the ramification subgroups using the following class function:
+\begin{example}\label{i_G} Let $G := \Gal(L/K)$, with $L/K$ a finite Galois extension of complete discrete valued fields as in previous section, and $x\in L$ a local parameter. Then we can defined the ramification subgroups using the following class function:
 $$ \begin{array}{rll}
 i_G: G & \rightarrow & \mathbb{Z}_{\geq 0} \cup \{ \infty \} \\
 \sigma & \mapsto & v_L(\sigma(x) - x)
@@ -339,7 +339,7 @@ $$\chi_{\rho}(g) := \chi_V(g) := \Tr(\rho(g)).$$
 Note that if $V$ is 1-dimensional, the character is the representation itself. The following facts can be easily shown:
 \begin{remark} Let $V_1, V_2$ be two representations of $G$.
 \begin{enumerate}
-\item $\goodchi_{V_1 \oplus V_2} = \chi_{V_1} + \chi_{V_2}$.
+\item $\chi_{V_1 \oplus V_2} = \chi_{V_1} + \chi_{V_2}$.
 \item $\chi_{V_1 \otimes V_2} = \chi_{V_1} \cdot \chi_{V_2}$.
 \item $\chi_{V_1^\vee}(g) = \chi_{V_1}(g^{-1})$. In particular, if $E = \mathbb{C}$, we have $\chi_{V_1^\vee}(g) = \overline{\chi_{V_1}}$.
 
@@ -364,22 +364,47 @@ Let $G$ be a finite group. Then, its irreducible characters $\chi_1, \ldots, \ch
 
 \noindent Therefore, we have the following:
 
-\begin{corollary} Over $\mathbb{C}$, a class function $\varphi$ is the character of a representation of $G$ if and only if it is of the form
+\begin{corollary}\label{characters} Over $\mathbb{C}$, a class function $\varphi$ is the character of a representation of $G$ if and only if it is of the form
 $$ \varphi = a_1 \chi_1 + \ldots + a_r \chi_r,$$
 with the $a_i \in \mathbb{Z}_{\geq 0}$.
 \end{corollary}
 
 We will need two more things in the rest of the section: the Frobenius reciprocity and Brauer's theorem. First we need a couple of definitions:
 
+\begin{definition}
+Let $\alpha: H \rightarrow G$ be a group homomorphism (one can think on the inclusion of a subgroup). 
+\begin{enumerate}
+\item If $\varphi \in \mathbf{C}_{\mathbb{C},G}$ is a class function on $G$, then $\alpha^*\varphi := \varphi \circ \alpha$ is a class function on $H$. We call it the \textit{restriction os $\varphi$}.
+\item If $\varphi \in \mathbf{C}_{\mathbb{C},H}$ is a class function on $H$, then we define the \textit{induced class function} on $G$, $\alpha_* \varphi$, as follows:
+\begin{itemize}
+\item If $\alpha$ is injective,
+$$ \alpha_*\varphi(g) := \frac{1}{|H|} \sum_{\substack{x \in G \\ xgx^{-1} \in H}} \varphi(xgx^{-1}).$$
+\item If $\alpha$ is surjective,
+$$ \alpha_* \varphi (g) := \frac{1}{|\ker(\alpha)|} \sum_{h \mapsto g} \varphi(h). $$
+\item In general, factor $\alpha$ onto its image and an inclusion.
+\end{itemize}
+\end{enumerate}
+\end{definition}
 
-Recall the following:
+\begin{remark}
+Both the restricted and the induces class functions respect characters, i.e. if $\chi$ is a character on $H$ (resp. $G$), then $\alpha_* \chi$ (resp. $\alpha^* \chi$) is again a character on $G$ (resp. on $H$).
+\end{remark}
 
-- Characters
-- Characters form a basis when $E = \mathbb{C}$.
-- If coefficients of a class function are naturals, then it is a character.
-- Restricted and induced class function.
-- Frobenius reciprocity.
-- Brauer theorem.
+The Frobenius reciprocity gives us an adjuction relation between induced and restricted representations:
+
+\begin{proposition}[Frobenius recoprocity]\label{Frobenius}
+Let $\alpha: H \rightarrow G$ be a group homomorphism, $\psi \in \mathbf{C}_{\mathbb{C}, H}$, and $\varphi \in \mathbf{C}_{\mathbb{C}, G}$. Then
+$$ \left\langle \psi, \alpha^* \varphi \right\rangle_H = \left\langle \alpha_* \psi, \varphi \right\rangle_G.$$
+
+\end{proposition}
+
+Finally, Brauer's theorem allows us to write any character of $G$ as a combination of 1-dimensional characters of subgroups $H_i <G$:
+
+
+\begin{theorem}[Brauer]\label{Brauer}
+Let $G$ be a finite group and $\chi$ a character corresponding to a finite dimensional complex representation of $G$. Then, $\chi$ is a $\mathbb{Z}$-linear combination of characters of the form $\alpha_{i  *} \chi_i$, where $\alpha_i : H_i \hookrightarrow G$ is an inclusion of a subgroup and $\chi_i$ is a $1$-dimensional representation of $H_i$. 
+\end{theorem}
+
 
 
 
@@ -393,17 +418,24 @@ $$
 \left\lbrace 
 	\begin{array}{ll}
         -f i_G(g) & \mbox{if } g \neq 1, \\
-		f \sum_{g' \neq 1} i_G(g) & \mbox{if } g=1.
+		f \sum_{g' \neq 1} i_G(g) & \mbox{if } g=1,
     \end{array}
 \right.
 $$
-Of course, we call it a character because it is character:
+where $i_G$ is the class function defined in Example \ref{i_G}. Of course, we call it a character because it is a character:
 
 \begin{theorem}[Artin]
 The Artin character $a_G$ is a character (of a representation of $G$ over $\mathbb{C}$).
 \end{theorem}
 
-Idea of the proof: enough to show that for any character $\chi$, then $(a_G|\chi) =: f(\chi) \in \mathbb{N}$. For this, first one proves that it is a non-negative rational number, then use Brauer theorem and Frobenius reciprocity to reduce it to the 1-dimensional case, and then use Hasse-Arf theorem to show that the $f(\chi)$ are integers.
+\begin{proof} (Sketch) By corollary \ref{characters}, it is enough to show that for any character $\chi$, then $\left\langle a_G, \chi \right\rangle =: f(\chi) \in \mathbb{Z}_{\geq 0}$. For this, first one proves that it is a non-negative rational number\footnote{Indeed, we have that $$f(\chi) = \sum_{i\geq 0} \frac{1}{|G:G_i|} (\dim V - \dim V^{G_i}).$$} (c.f. \cite[Lem. 4.48]{KinRue15}). Once we have this, then by Brauer's theorem we have that $\chi = \sum a_i \chi_i'$, where $a_i \in \mathbb{Z}$ and $\chi_i' := \alpha_{i *} \chi_i$ is the induced representation of the 1-dimensional character $\chi_i$ on the subgroup $H_i$. Hence, we just need to show that $f(\chi_i') \in \mathbb{Z}$.
+
+But by Frobenius reciprocity, we have that $f(\chi_i') = \left\langle a_G, \alpha_{i*}\chi_i' \right\rangle_G = \left\langle \alpha_i^* a_G, \chi_i' \right\rangle_{H_i}$. Now we can write $\alpha_i^*a_G$ in terms of the regular representation of $H_i$ and the Artin character of $H_i$ (c.f. \cite[Lem. 4.51]{KinRue15}):
+$$ \alpha_i^*a_G = \lambda r_H + a_H,$$
+where $\lambda = v_{K'}(\mathfrak{D}_{K'/K})$ is a non-negative integer and $K' := L^{H_i}$.
+
+\end{proof}
+  and Frobenius reciprocity to reduce it to the 1-dimensional case, and then use Hasse-Arf theorem to show that the $f(\chi)$ are integers.
 
 - Definition of Swan character.
 
